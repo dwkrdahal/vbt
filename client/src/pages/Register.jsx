@@ -1,13 +1,20 @@
+import { set } from "mongoose";
 import React from "react";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom"
 
 function Register() {
   const [user, setUser] = useState({
-    username: "hello",
+    username: "",
     email: "",
     phone: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+
+
+  const [phoneError, setPhoneError] = useState('')
 
   const handleInput = (e) => {
     // console.log(e);
@@ -18,12 +25,40 @@ function Register() {
       ...user,
       [name]: value,
     });
+
+    // error for phone
+    if (name === "phone") {
+      if (value.length < 10) {
+        setPhoneError("must be 10 digit")
+      } else {
+        setPhoneError('')
+        
+      }
+    }
   };
 
   // handling the form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/auth/reg`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        setUser({ username: "", email: "", phone: "", password: "" });
+        navigate("/login")
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -35,7 +70,7 @@ function Register() {
               <div className="registration-image">
                 <img
                   src="images/register.png"
-                  alt="a girl is trying to register"
+                  alt="they are trying to register"
                   width="500"
                   height="500"
                 />
@@ -47,7 +82,7 @@ function Register() {
                 <br />
 
                 <form action="" onSubmit={handleSubmit}>
-                  <div>
+                  <div className="username-input">
                     <label htmlFor="username">username</label>
                     <input
                       type="text"
@@ -61,7 +96,7 @@ function Register() {
                     />
                   </div>
 
-                  <div>
+                  <div className="email-input">
                     <label htmlFor="email">email</label>
                     <input
                       type="email"
@@ -75,21 +110,24 @@ function Register() {
                     />
                   </div>
 
-                  <div>
+                  <div className="phone-input">
                     <label htmlFor="phone">phone</label>
                     <input
                       type="number"
                       name="phone"
-                      placeholder="phone"
+                      placeholder="valid phone number"
                       id="phone"
                       required
                       autoComplete="off"
                       value={user.phone}
                       onChange={handleInput}
+                      pattern="[0-9]{10,}"
+                      title="Phone number must be at least 10 digits"
                     />
+                    {phoneError && <p style={{ color: "red" }}>{phoneError}</p>}
                   </div>
 
-                  <div>
+                  <div className="password-input">
                     <label htmlFor="password">password</label>
                     <input
                       type="password"
@@ -102,8 +140,6 @@ function Register() {
                       onChange={handleInput}
                     />
                   </div>
-
-                  <br />
 
                   <button className="btn btn-submit" type="submit">
                     Register Now
