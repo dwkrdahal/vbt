@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+
+const URL = `http://localhost:3000/api/form/contact`;
 
 export default function Contact() {
+
   const [msg, setMsg] = useState({
     username: "",
     email: "",
@@ -25,29 +29,48 @@ export default function Contact() {
     // }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(msg);
+
+    try {
+      // console.log(msg);
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(msg),
+       
+      });
+
+      if(response.ok){
+          setMsg({
+            username: "",
+            email: "",
+            message: "",  
+          })
+          toast.success("Message sent succesfully!")
+      }
+    } catch (error) {
+      toast.error("Error while sending message")
+    }
   };
 
   return (
     <>
       <main>
         <section className="section-contact">
-          <div className="container contact-content ">
-            
-          </div>
+          <div className="container contact-content "></div>
 
           <div className="container grid grid-two-cols">
-            
             <div className="contact-img">
               <img src="images/support.png" alt="we are ready 24/7" />
             </div>
 
             {/* contact form */}
-            
+
             <div className="contact-form">
-            <h1 className="main-heading">Contact Form</h1>
+              <h1 className="main-heading">Contact Form</h1>
               <br />
 
               <form onSubmit={handleSubmit}>

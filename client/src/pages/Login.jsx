@@ -1,34 +1,32 @@
-import React from 'react';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
+import React from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+const navigate = useNavigate();
+const URL = "http://localhost:3000/api/auth/login";
 
 export default function Login() {
-
   const [user, setUser] = useState({
     email: "",
     password: "",
-  })
+  });
 
-
-  const handleInput =(e) => {
+  const handleInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
-    setUser ({
+    setUser({
       ...user,
       [name]: value,
-    })
-  }
-
-  const navigate = useNavigate();
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +34,7 @@ export default function Login() {
         body: JSON.stringify(user),
       });
 
-      if(response.ok){
+      if (response.ok) {
         setUser({ email: "", password: "" });
 
         // Show success toast
@@ -44,15 +42,15 @@ export default function Login() {
 
         // navigate to another page after a delay
         setTimeout(() => {
-          toast.info('Redirected to Home Page');
-          navigate('/');
+          toast.info("Redirected to Home Page");
+          navigate("/");
         }, 2000);
       }
     } catch (error) {
       toast.error("login failed");
     }
-     //ready to send backend
-  }
+    //ready to send backend
+  };
 
   return (
     <section>
@@ -60,7 +58,12 @@ export default function Login() {
         <div className="section-login">
           <div className="container grid grid-two-cols">
             <div className="login-image">
-              <img src="images/login.png" alt="lets login" width="500" height="500"/>
+              <img
+                src="images/login.png"
+                alt="lets login"
+                width="500"
+                height="500"
+              />
             </div>
 
             {/* login form */}
@@ -69,16 +72,15 @@ export default function Login() {
               <br />
 
               <form action="" onSubmit={handleSubmit}>
-                
                 <div>
                   <label htmlFor="email">email</label>
-                  <input 
-                    type="email" 
-                    name="email" 
-                    placeholder='email' 
-                    id='email'
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    id="email"
                     required
-                    autoComplete='off'
+                    autoComplete="off"
                     value={user.email}
                     onChange={handleInput}
                   />
@@ -86,13 +88,13 @@ export default function Login() {
 
                 <div>
                   <label htmlFor="password">password</label>
-                  <input 
-                    type="password" 
-                    name="password" 
-                    placeholder='password' 
-                    id='password'
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    id="password"
                     required
-                    autoComplete='off'
+                    autoComplete="off"
                     value={user.password}
                     onChange={handleInput}
                   />
@@ -100,12 +102,14 @@ export default function Login() {
 
                 <br />
 
-                <button className="btn btn-submit" type='submit'>Login Now</button>
+                <button className="btn btn-submit" type="submit">
+                  Login Now
+                </button>
               </form>
             </div>
           </div>
         </div>
       </main>
     </section>
-  )
+  );
 }

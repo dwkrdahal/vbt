@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const navigate = useNavigate();
+const URL = `http://localhost:3000/api/auth/reg`
+
 function Register() {
   const [user, setUser] = useState({
     username: "",
@@ -11,8 +14,6 @@ function Register() {
     phone: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const [phoneError, setPhoneError] = useState("");
 
@@ -42,7 +43,7 @@ function Register() {
     console.log(user);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/reg`, {
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,8 +59,8 @@ function Register() {
 
         // navigate to another page after a delay
         setTimeout(() => {
-          toast.info('Redirected to Login Page');
-          navigate('/login');
+          toast.info("Redirected to Login Page");
+          navigate("/login");
         }, 2000);
 
         console.log(response);
