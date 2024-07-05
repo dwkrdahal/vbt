@@ -1,18 +1,20 @@
-import React from 'react'
-import { useState } from 'react'
+import React from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+
 
 export default function Login() {
 
   const [user, setUser] = useState({
-    email: "ch",
-    password: "ecj",
+    email: "",
+    password: "",
   })
 
 
   const handleInput =(e) => {
     let name = e.target.name;
     let value = e.target.value;
-    console.log(e);
 
     setUser ({
       ...user,
@@ -20,9 +22,36 @@ export default function Login() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);  //ready to send backend
+
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if(response.ok){
+        setUser({ email: "", password: "" });
+
+        // Show success toast
+        toast.success("Login successfull!");
+
+        // navigate to another page after a delay
+        setTimeout(() => {
+          toast.info('Redirected to Home Page');
+          navigate('/');
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error("login failed");
+    }
+     //ready to send backend
   }
 
   return (

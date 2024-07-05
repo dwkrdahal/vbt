@@ -48,35 +48,36 @@ const register = async (req, res) => {
 };
 
 
-//login function
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
-    const userExist = await User.findOne({email});
+    // Check if user exists
+    const userExist = await User.findOne({ email });
 
-    if(!userExist){
-      res.status(400).json({msg: "invalid credential" });
+    if (!userExist) {
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
     
-    // const isPasswordValid = await bcrypt.compare(password, userExist.password);
+    // Check if password is valid
     const isPasswordValid = await userExist.comparePassword(password);
 
-    if(isPasswordValid){
-      res.status(200).json({
-        msg: "login successful",
+    if (isPasswordValid) {
+      // Generate and send token upon successful login
+      return res.status(200).json({
+        msg: "Login successful",
         token: await userExist.generateToken(),
         userId: userExist._id.toString(),
-      })
+      });
     } else {
-      res.status(401).json({msg: "invalid email or password"})
+      // Send error response if password is invalid
+      return res.status(401).json({ msg: "Invalid email or password" });
     }
-
   } catch (error) {
-    res.status(500).json({msg: "server error" });
-
-    next(error);
+    // Handle server errors
+    console.error('Error during login:', error);
+    return res.status(500).json({ msg: "Server error" });
   }
-}
+};
 
 export default { home, register, login };
