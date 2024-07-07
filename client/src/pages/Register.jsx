@@ -3,8 +3,9 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../store/auth";
 
-const navigate = useNavigate();
+
 const URL = `http://localhost:3000/api/auth/reg`
 
 function Register() {
@@ -15,6 +16,8 @@ function Register() {
     password: "",
   });
 
+  const navigate = useNavigate();
+  const {storeTokenInLS} = useAuth();
   const [phoneError, setPhoneError] = useState("");
 
   const handleInput = (e) => {
@@ -51,12 +54,15 @@ function Register() {
         body: JSON.stringify(user),
       });
 
-      if (response.ok) {
-        setUser({ username: "", email: "", phone: "", password: "" });
+      const res_data = await response.json();
 
+      if (response.ok) {
         // Show success toast
         toast.success("User registered successfully!");
 
+        storeTokenInLS(res_data.token);
+
+        setUser({ username: "", email: "", phone: "", password: "" });
         // navigate to another page after a delay
         setTimeout(() => {
           toast.info("Redirected to Login Page");

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import authController from '../controllers/auth.controller.js'; 
 import { signUpSchema, loginSchema } from '../validators/auth.validator.js'; 
-import validate from '../middlewares/validate.middleware.js';
+import { authMiddleware, validate } from '../middlewares/index.js';
 
 const router = Router();
 
@@ -19,5 +19,10 @@ router
 router
   .route("/login")
   .post(validate(loginSchema), authController.login);
+
+  //user route
+router
+  .route("/user")
+  .get(authMiddleware , authController.user)
 
 export default router;

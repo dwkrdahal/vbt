@@ -5,6 +5,7 @@ import Contact from "./Contact";
 import Service from "./Service";
 import Register from "./Register";
 import Error from "./Error";
+import {Logout} from "./Logout";
 
 
-export {Home, Login, About, Contact, Service, Register, Error};
+export {Home, Login, About, Contact, Service, Register, Error, Logout};

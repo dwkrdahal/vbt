@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
-const navigate = useNavigate();
 const URL = "http://localhost:3000/api/auth/login";
 
 export default function Login() {
@@ -11,6 +11,10 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+
+  const {storeTokenInLS} = useAuth();
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -34,20 +38,27 @@ export default function Login() {
         body: JSON.stringify(user),
       });
 
-      if (response.ok) {
-        setUser({ email: "", password: "" });
+      const res_data = await response.json();
 
+      if (response.ok) {
         // Show success toast
-        toast.success("Login successfull!");
+        toast.success(res_data.msg);
+
+        //store token in local storage
+        storeTokenInLS(res_data.token);
+
+        setUser({ email: "", password: "" });
 
         // navigate to another page after a delay
         setTimeout(() => {
           toast.info("Redirected to Home Page");
           navigate("/");
         }, 2000);
+      } else {
+        toast.error(res_data.msg);
       }
     } catch (error) {
-      toast.error("login failed");
+      toast.error("Error");
     }
     //ready to send backend
   };

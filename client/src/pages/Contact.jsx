@@ -42,6 +42,7 @@ export default function Contact() {
         body: JSON.stringify(msg),
        
       });
+      
 
       if(response.ok){
           setMsg({
