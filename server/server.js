@@ -8,6 +8,7 @@ import connectDb from "./utils/db.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 
 import cors from "cors";
+import serviceRoute from "./routes/service.route.js";
 
 var corsOption = {
   origin: "http://localhost:5173",
@@ -23,6 +24,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
+app.use("/api/data", serviceRoute);
 
 //error middleware
 app.use(errorMiddleware);

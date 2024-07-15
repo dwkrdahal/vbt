@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
@@ -42,7 +41,7 @@ export default function Login() {
 
       if (response.ok) {
         // Show success toast
-        toast.success(res_data.msg);
+        toast.success("Login Success");
 
         //store token in local storage
         storeTokenInLS(res_data.token);
@@ -55,7 +54,7 @@ export default function Login() {
           navigate("/");
         }, 2000);
       } else {
-        toast.error(res_data.msg);
+        toast.error(res_data.extraMessage ? res_data.extraMessage : res_data.message);
       }
     } catch (error) {
       toast.error("Error");

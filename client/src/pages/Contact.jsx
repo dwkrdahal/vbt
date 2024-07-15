@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "../store/auth";
 
 const URL = `http://localhost:3000/api/form/contact`;
 
 export default function Contact() {
-
-  const [msg, setMsg] = useState({
+  const defaultContactFormData = {
     username: "",
     email: "",
     message: "",
-  });
+  };
+
+  const [msg, setMsg] = useState(defaultContactFormData);
+  const [userData, setUserData] = useState(true);
+  const [msgErr, setMsgErr] = useState("");
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // console.log("i am here",user);
+    if (user && userData) {
+      setMsg({
+        username: user.username || "",
+        email: user.email || "",
+        message: "",
+      });
+
+      setUserData(false);
+    }
+  }, [user]);
 
   const handleInput = (e) => {
     // console.log(e);
@@ -27,6 +45,14 @@ export default function Contact() {
     //   ...prev,
     //   [name]: value,
     // }));
+
+    if (name === "message") {
+      if (value.length < 4) {
+        setMsgErr("Message is too short");
+      } else {
+        setMsgErr("");
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -40,20 +66,16 @@ export default function Contact() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(msg),
-       
       });
-      
 
-      if(response.ok){
-          setMsg({
-            username: "",
-            email: "",
-            message: "",  
-          })
-          toast.success("Message sent succesfully!")
+      if (response.ok) {
+        setMsg({
+          message: ""
+        });
+        toast.success("Message sent succesfully!");
       }
     } catch (error) {
-      toast.error("Error while sending message")
+      toast.error("Error while sending message");
     }
   };
 
@@ -116,6 +138,7 @@ export default function Contact() {
                     value={msg.message}
                     onChange={handleInput}
                   />
+                  {msgErr && <p style={{ color: "red" }}>{msgErr}</p>}
                 </div>
 
                 <button className="btn btn-submit" type="submit">

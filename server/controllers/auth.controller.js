@@ -17,7 +17,7 @@ const register = async (req, res) => {
     const userExist = await User.findOne({ email });
 
     if (userExist) {
-      return res.status(400).json({ msg: "Email already exists" });
+      return res.status(400).json({ message: "Email already exists" });
     }
 
     //hash the password,
@@ -53,7 +53,7 @@ const login = async (req, res, next) => {
     // console.log("i am here")
 
     if (!userExist) {
-      return res.status(400).json({ msg: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Check if password is valid
@@ -81,8 +81,8 @@ const login = async (req, res, next) => {
 const user = async (req, res) => {
   try {
     const userData = req.user;
-    console.log(userData);
-    return res.status(200).json({ msg: userData });
+    // console.log(userData);
+    return res.status(200).json({ userData });
     // res.status(200).json({msg:"hi"})
   } catch (error) {
     console.log(`error from the user route ${error}`);

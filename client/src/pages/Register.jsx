@@ -1,6 +1,5 @@
 import { set } from "mongoose";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
@@ -21,7 +20,7 @@ function Register() {
   const [phoneError, setPhoneError] = useState("");
 
   const handleInput = (e) => {
-    // console.log(e);
+    console.log(e);
     let name = e.target.name;
     let value = e.target.value;
 
@@ -30,7 +29,7 @@ function Register() {
       [name]: value,
     });
 
-    // error for phone
+    // error for phone number
     if (name === "phone") {
       if (value.length < 10) {
         setPhoneError("must be 10 digit");
@@ -55,6 +54,7 @@ function Register() {
       });
 
       const res_data = await response.json();
+      console.log("response from the server", res_data.message);
 
       if (response.ok) {
         // Show success toast
@@ -63,13 +63,15 @@ function Register() {
         storeTokenInLS(res_data.token);
 
         setUser({ username: "", email: "", phone: "", password: "" });
-        // navigate to another page after a delay
+        // navigate to another page after 2 sec
         setTimeout(() => {
-          toast.info("Redirected to Login Page");
-          navigate("/login");
+          toast.info("Redirected to Home Page");
+          navigate("/");
         }, 2000);
 
         console.log(response);
+      } else{
+        toast.error(res_data.extraMessage ? res_data.extraMessage : res_data.message);
       }
     } catch (error) {
       toast.error("Registration failed");

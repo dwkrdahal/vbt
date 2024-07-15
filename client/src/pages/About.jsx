@@ -1,15 +1,20 @@
 import React from 'react'
 import { Analytics } from '../components'
+import { useAuth } from '../store/auth'
 
 export default function About() {
-  return (
+
+  const {user} = useAuth();
+  console.log("from about",user);
+
+  return (    
     <>
       <main>
         {/* 1st section */}
         <section className="section-hero">
           <div className="container grid grid-two-cols">
             <div className="hero-content">
-              <p>Welcome, username </p>
+              <p>Welcome, {user?.username } to our website </p>
               <h1>Why Choose US?</h1>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
