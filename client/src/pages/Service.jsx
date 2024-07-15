@@ -16,7 +16,7 @@ export default function Service() {
             const { price, description, provider, service } = currElem;
 
             return (
-              <div className="card">
+              <div className="card" key={currElem._id}>
                 <div className="card-img">
                   <img
                     src="images/design.png"

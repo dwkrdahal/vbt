@@ -1,21 +1,27 @@
-
+//express
 import express from "express";
 
+//routes
 import authRoute from "./routes/auth.route.js";
 import contactRoute from "./routes/contact.route.js";
+import serviceRoute from "./routes/service.route.js";
+import projectRoute from "./routes/project.route.js";
 
+//dbs
 import connectDb from "./utils/db.js";
+
+//middlewares
 import errorMiddleware from "./middlewares/error.middleware.js";
 
+//cors
 import cors from "cors";
-import serviceRoute from "./routes/service.route.js";
+
 
 var corsOption = {
   origin: "http://localhost:5173",
   methods: "POST, GET, PUT, DELETE, PATCH, HEAD",
   credentials: true,
 }
-
 
 const app = express();
 
@@ -25,6 +31,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
 app.use("/api/data", serviceRoute);
+app.use("/api/project", projectRoute);
 
 //error middleware
 app.use(errorMiddleware);

@@ -8,8 +8,11 @@ import {
   Register,
   Error,
   Logout,
+  Project,
 } from "./pages";
+
 import { Navbar, Footer } from "./components";
+
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
@@ -25,6 +28,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/service" element={<Service />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/project" element={<Project />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/*" element={<Error />} />

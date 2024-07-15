@@ -395,6 +395,65 @@ a.active {
 
 /* End Section Login */
 
+/* bhjsdj */
+/* .card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-details {
+  padding: 20px;
+}
+
+.grid-four-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px; /* Add gap between cards */
+}
+
+.grid-three-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Add gap between cards */
+}
+
+.grid-two-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* Add gap between cards */
+}
+
+.section-project {
+  padding: 20px 0;
+}
+
+.section-services {
+  padding: 20px 0;
+}
+
+.button{
+  margin: 3px;
+}
+
+/* Example CSS for card transition */
+.card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05); /* Example: Scale up on hover */
+}
+ */
+
 
 /* error page  */
 #error-page {
