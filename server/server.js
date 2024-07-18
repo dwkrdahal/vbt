@@ -6,6 +6,7 @@ import authRoute from "./routes/auth.route.js";
 import contactRoute from "./routes/contact.route.js";
 import serviceRoute from "./routes/service.route.js";
 import projectRoute from "./routes/project.route.js";
+import adminRoute from "./routes/admin.route.js";
 
 //dbs
 import connectDb from "./utils/db.js";
@@ -32,6 +33,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
 app.use("/api/data", serviceRoute);
 app.use("/api/project", projectRoute);
+app.use("/api/admin", adminRoute);
 
 //error middleware
 app.use(errorMiddleware);
