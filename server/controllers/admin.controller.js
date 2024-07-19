@@ -46,25 +46,70 @@ const Services = async (req, res) => {
 
     return res.status(200).json(services);
   } catch (error) {
-    console.log(`Error from backend admin services ${error}`);
-    res.status(200).json({ message: "error" });
+    next(error);
   }
 };
 
 const Projects = async (req, res) => {
   try {
     const projects = await Project.find();
-    
-    if(!projects || projects.length ===0){
-      return res.status(404).json({message: "Projects Not Found"})
+
+    if (!projects || projects.length === 0) {
+      return res.status(404).json({ message: "Projects Not Found" });
     }
 
     return res.status(200).json(projects);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// delete user by id logic
+const deleteUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await User.deleteOne({ _id: id });
+    return res.status(200).json({ message: "User deleted SUccessfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//deleyte service by id logic
+const deleteServiceById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Service.deleteOne({ _id: id });
+    return res.status(200).json({ message: "service deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteContactById = async(req, res) => {
+  try {
+    const id = req.params.id;
+    await Contact.deleteOne({_id: id});
+    return res.status(200).json({message: "Contact deleted"})
     
   } catch (error) {
-    console.log(`Error from backend admin projects ${error}`);
-    res.status(200).json({ message: "error" });
+    next(error)
   }
+};
+
+const deleteProjectById = async (req, res) => {
+  const id = req.params.id;
+  await Project.deleteOne({_id : id})
+  return res.status(200).json({message: "project Deleted"})
 }
 
-export default { Users, Contacts, Services, Projects };
+export default {
+  Users,
+  Contacts,
+  Services,
+  Projects,
+  deleteUserById,
+  deleteServiceById,
+  deleteContactById,
+  deleteProjectById
+};

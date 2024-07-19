@@ -1,0 +1,97 @@
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../../store/auth";
+import {toast} from "react-toastify"
+
+
+function Services() {
+  const [services, setServices] = useState([]);
+  const { authorizationToken } = useAuth();
+  const URL = "http://localhost:3000/api/admin/services";
+
+  const getAllServices = async (req, res) => {
+    try {
+      const response = await fetch(URL, {
+        method: "GET",
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
+
+      const data = await response.json();
+      setServices(data);
+      console.log("ok");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteService = useCallback(async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/admin/services/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: authorizationToken,
+          },
+        }
+      );
+
+      toast.success("DELETED")
+      
+      getAllServices();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [authorizationToken]);
+
+  useEffect(() => {
+    getAllServices();
+  }, [deleteService]);
+
+  return (
+    <>
+      <section className="admin-services-section">
+        <div className="container">
+          <h1>Admin Services Data</h1>
+        </div>
+
+        <div className="container admin-services">
+          <table>
+            <thead>
+              <tr>
+                <td>service</td>
+                <td>description</td>
+                <td>price</td>
+                <td>provider</td>
+                <td>Edit</td>
+                <td>Delete</td>
+              </tr>
+            </thead>
+            <tbody>
+              {services.map((currentService, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{currentService.service}</td>
+                    <td>{currentService.description}</td>
+                    <td>{currentService.price}</td>
+                    <td>{currentService.provider}</td>
+                    <td>Edit</td>
+                    <td>
+                      <button onClick={() => deleteService(currentService._id)}>
+                        {" "}
+                        Delete{" "}
+                      </button>{" "}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default Services;

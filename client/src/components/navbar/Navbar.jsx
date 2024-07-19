@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { useAuth } from "../../store/auth";
@@ -16,9 +15,11 @@ export default function Navbar() {
 
           <nav>
             <ul>
-              <li>
-                <NavLink to="/"> Home</NavLink>
-              </li>
+              {isLoggedIn && (
+                <li>
+                  <NavLink to="/admin"> Admin</NavLink>
+                </li>
+              )}
 
               <li>
                 <NavLink to="/about"> About</NavLink>

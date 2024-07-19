@@ -15,6 +15,8 @@ import { Navbar, Footer } from "./components";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import AdminLayout from "./Layout/AdminLayout";
+import {Contacts, Users, Projects, Services} from "./pages/admin/";
 
 function App() {
   return (
@@ -32,6 +34,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/*" element={<Error />} />
+
+        {/* admin panel */}
+        <Route path="/admin" element={<AdminLayout/>}>
+          <Route path="users" element={<Users/>} />
+          <Route path="services" element={<Services/>} />
+          <Route path="contacts" element={<Contacts/>} />
+          <Route path="projects" element={<Projects/>} />
+        </Route>
       </Routes>
 
       <Footer />

@@ -5,12 +5,36 @@ import adminMiddleware from "../middlewares/admin.middleware.js";
 
 const adminRoute = Router();
 
-adminRoute.route("/users").get(authMiddleware, adminMiddleware, adminController.Users);
+adminRoute
+  .route("/users")
+  .get(authMiddleware, adminMiddleware, adminController.Users);
 
-adminRoute.route("/contacts").get(authMiddleware, adminMiddleware, adminController.Contacts);
+adminRoute
+  .route("/users/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteUserById);
 
-adminRoute.route("/services").get(authMiddleware, adminMiddleware, adminController.Services);
+adminRoute
+  .route("/contacts")
+  .get(authMiddleware, adminMiddleware, adminController.Contacts);
 
-adminRoute.route("/projects").get(authMiddleware, adminMiddleware, adminController.Projects)
+adminRoute
+  .route("/contacts/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteContactById)
+
+adminRoute
+  .route("/services")
+  .get(authMiddleware, adminMiddleware, adminController.Services);
+
+adminRoute
+  .route("/services/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteServiceById)
+
+adminRoute
+  .route("/projects")
+  .get(authMiddleware, adminMiddleware, adminController.Projects);
+
+adminRoute
+  .route("/projects/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminController.deleteProjectById)
 
 export default adminRoute;
