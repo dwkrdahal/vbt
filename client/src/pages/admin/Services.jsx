@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth";
-import {toast} from "react-toastify"
+import {toast} from "react-toastify";
+import {Link} from "react-router-dom"
 
 
-function Services() {
+function AdminServices() {
   const [services, setServices] = useState([]);
   const { authorizationToken } = useAuth();
   const URL = "http://localhost:3000/api/admin/services";
@@ -76,7 +77,7 @@ function Services() {
                     <td>{currentService.description}</td>
                     <td>{currentService.price}</td>
                     <td>{currentService.provider}</td>
-                    <td>Edit</td>
+                    <td> <Link to={`${currentService._id}`}>Edit</Link></td>
                     <td>
                       <button onClick={() => deleteService(currentService._id)}>
                         {" "}
@@ -94,4 +95,4 @@ function Services() {
   );
 }
 
-export default Services;
+export default AdminServices;

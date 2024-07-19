@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth";
 import { toast } from "react-toastify";
 
-function Projects() {
+function AdminProjects() {
   const { authorizationToken } = useAuth();
   const URL = "http://localhost:3000/api/admin/projects";
   const [projects, setProjects] = useState([]);
@@ -88,4 +88,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default AdminProjects;

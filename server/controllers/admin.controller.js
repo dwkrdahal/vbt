@@ -4,7 +4,7 @@ import Service from "../models/service.model.js";
 import User from "../models/user.model.js";
 
 //get All Users
-const Users = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, { password: 0 });
 
@@ -20,7 +20,7 @@ const Users = async (req, res) => {
 };
 
 //get All Contacts
-const Contacts = async (req, res) => {
+const getAllContacts = async (req, res) => {
   try {
     const contacts = await Contact.find();
 
@@ -35,10 +35,10 @@ const Contacts = async (req, res) => {
   }
 };
 
-const Services = async (req, res) => {
+const getAllServices = async (req, res) => {
   try {
     const services = await Service.find();
-    console.log(services);
+    // console.log(services);
 
     if (!services || services.length === 0) {
       return res.status(404).json({ message: "Services Unavailable" });
@@ -50,7 +50,7 @@ const Services = async (req, res) => {
   }
 };
 
-const Projects = async (req, res) => {
+const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find();
 
@@ -86,30 +86,110 @@ const deleteServiceById = async (req, res) => {
   }
 };
 
-const deleteContactById = async(req, res) => {
+const deleteContactById = async (req, res) => {
   try {
     const id = req.params.id;
-    await Contact.deleteOne({_id: id});
-    return res.status(200).json({message: "Contact deleted"})
-    
+    await Contact.deleteOne({ _id: id });
+    return res.status(200).json({ message: "Contact deleted" });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 const deleteProjectById = async (req, res) => {
   const id = req.params.id;
-  await Project.deleteOne({_id : id})
-  return res.status(200).json({message: "project Deleted"})
-}
+  await Project.deleteOne({ _id: id });
+  return res.status(200).json({ message: "project Deleted" });
+};
+
+const getServiceById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Service.findOne({ _id: id });
+    res.status(200).json(data);
+    // console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await User.findOne({ _id: id }, { password: 0 });
+    res.status(200).json(data);
+    // console.log("User fetched");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getProjectById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Project.findOne({ _id: id });
+    res.status(200).json(data);
+    console.log("projected fetched");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getContactById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Contact.findOne({ _id: id });
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUserById = async (req, res) => {
+  try {
+    console.log("i am here");
+    const id = req.params.id;
+    const updatedUserData = req.body;
+
+    const result = await User.updateOne({ _id: id }, { $set: updatedUserData });
+
+    if (result.nModified === 0) {
+      return res.status(404).json({ message: "User not found or data unchanged" });
+    }
+
+    return res.status(202).json({message: "user updated"})
+  } catch (error) {
+    console.log("err",error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const updateContactById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedContactData = req.body;
+
+    await Contact.updateOne({ _id: id },{$set: updatedContactData});
+
+    return res.status(202).json({ message: "contact updated" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default {
-  Users,
-  Contacts,
-  Services,
-  Projects,
+  getAllUsers,
+  getAllContacts,
+  getAllServices,
+  getAllProjects,
   deleteUserById,
   deleteServiceById,
   deleteContactById,
-  deleteProjectById
+  deleteProjectById,
+  getServiceById,
+  getUserById,
+  getProjectById,
+  getContactById,
+  updateUserById,
+  updateContactById,
 };

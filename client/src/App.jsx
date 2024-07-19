@@ -11,12 +11,19 @@ import {
   Project,
 } from "./pages";
 
-import { Navbar, Footer } from "./components";
+import {
+  AdminContacts,
+  AdminUsers,
+  AdminProjects,
+  AdminServices,
+  AdminUserUpdate,
+} from "./pages/admin/";
 
-import "react-toastify/dist/ReactToastify.css";
+import { Navbar, Footer } from "./components";
 import { ToastContainer } from "react-toastify";
 import AdminLayout from "./Layout/AdminLayout";
-import {Contacts, Users, Projects, Services} from "./pages/admin/";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -36,11 +43,12 @@ function App() {
         <Route path="/*" element={<Error />} />
 
         {/* admin panel */}
-        <Route path="/admin" element={<AdminLayout/>}>
-          <Route path="users" element={<Users/>} />
-          <Route path="services" element={<Services/>} />
-          <Route path="contacts" element={<Contacts/>} />
-          <Route path="projects" element={<Projects/>} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="users/update/:id" element={<AdminUserUpdate />} />
+          <Route path="services" element={<AdminServices />} />
+          <Route path="contacts" element={<AdminContacts />} />
+          <Route path="projects" element={<AdminProjects />} />
         </Route>
       </Routes>
 

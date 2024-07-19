@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 import { useAuth } from "../../store/auth";
+import { Link } from "react-router-dom";
 // import Table from 'react-bootstrap/Table';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Users() {
+function AdminUsers() {
 
   const [users, setUsers] = useState ([]);
   const {authorizationToken} = useAuth();
@@ -77,7 +78,7 @@ function Users() {
           <td>{currentUser.username}</td>
           <td>{currentUser.email}</td>
           <td>{currentUser.phone}</td>
-          <td>Edit</td>
+          <td><Link to={`update/${currentUser._id}`}>Edit</Link></td>
           <td> <button onClick={() => deleteUser(currentUser._id)}>Delete</button></td>
         </tr>
         );
@@ -94,4 +95,4 @@ function Users() {
   )
 }
 
-export default Users
+export default AdminUsers

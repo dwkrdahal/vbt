@@ -1,6 +1,7 @@
-import Contacts from "./Contacts"
-import Users from "./Users";
-import Projects from "./Projects";
-import Services from "./Services"
+import AdminContacts from "./Contacts"
+import AdminUsers from "./Users";
+import AdminProjects from "./Projects";
+import AdminServices from "./Services"
+import AdminUserUpdate from "./UserUpdate"
 
-export {Contacts, Services, Users, Projects};
+export {AdminContacts, AdminServices, AdminUsers, AdminProjects, AdminUserUpdate};

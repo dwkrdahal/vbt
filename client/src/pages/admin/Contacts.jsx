@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth";
 import {toast} from "react-toastify"
 
-function Contacts() {
+function AdminContacts() {
 
   const {authorizationToken} = useAuth();
   const [contacts, setContacts] = useState([])
@@ -83,4 +83,4 @@ function Contacts() {
   )
 }
 
-export default Contacts
+export default AdminContacts
