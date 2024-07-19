@@ -17,8 +17,8 @@ adminRoute
   .route("/users/:id")
   .get(authMiddleware, adminMiddleware, adminController.getUserById);
 
-adminRoute
-  .route("users/update/:id")
+  adminRoute
+  .route('/users/update/:id')
   .patch(authMiddleware, adminMiddleware, adminController.updateUserById);
 
 adminRoute
