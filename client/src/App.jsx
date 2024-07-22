@@ -17,6 +17,7 @@ import {
   AdminProjects,
   AdminServices,
   AdminUserUpdate,
+  AdminContactUpdate
 } from "./pages/admin/";
 
 import { Navbar, Footer } from "./components";
@@ -47,6 +48,7 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="users/update/:id" element={<AdminUserUpdate />} />
           <Route path="services" element={<AdminServices />} />
+          <Route path="contacts/update/:id" element={<AdminContactUpdate />} />
           <Route path="contacts" element={<AdminContacts />} />
           <Route path="projects" element={<AdminProjects />} />
         </Route>

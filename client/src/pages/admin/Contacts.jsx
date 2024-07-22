@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth";
-import {toast} from "react-toastify"
+import {toast} from "react-toastify";
+import { Link } from "react-router-dom";
 
 function AdminContacts() {
 
-  const {authorizationToken} = useAuth();
+  const {authorizationToken, API} = useAuth();
   const [contacts, setContacts] = useState([])
-  const URL = "http://localhost:3000/api/admin/contacts";
 
   const getAllContacts = async (req, res) => {
-    const response = await fetch(URL, {
+    const response = await fetch(`${API}/admin/contacts`, {
       method: "GET",
       headers: {
         "Authorization": authorizationToken,
@@ -26,7 +26,7 @@ function AdminContacts() {
 
   const deleteContact = useCallback ( async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/admin/contacts/delete/${id}`,{
+      await fetch(`${API}/admin/contacts/delete/${id}`,{
         method: "DELETE",
         headers: {
           Authorization: authorizationToken
@@ -71,7 +71,7 @@ function AdminContacts() {
                   <td>{currentContact.username}</td>
                   <td>{currentContact.email}</td>
                   <td>{currentContact.message}</td>
-                  <td>Edit</td>
+                  <td><Link to={`update/${currentContact._id}`}>Edit</Link></td>
                   <td><button onClick={() => deleteContact(currentContact._id)}>Delete</button></td>
                 </tr>
               )

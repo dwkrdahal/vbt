@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
 
-const URL = `http://localhost:3000/api/form/contact`;
-
 export default function Contact() {
   const defaultContactFormData = {
     username: "",
@@ -14,7 +12,9 @@ export default function Contact() {
   const [msg, setMsg] = useState(defaultContactFormData);
   const [userData, setUserData] = useState(true);
   const [msgErr, setMsgErr] = useState("");
-  const { user } = useAuth();
+ 
+  const { user, API } = useAuth();
+  const contactURL = `${API}/form/contact`;
 
   useEffect(() => {
     // console.log("i am here",user);
@@ -60,7 +60,7 @@ export default function Contact() {
 
     try {
       // console.log(msg);
-      const response = await fetch(URL, {
+      const response = await fetch(contactURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

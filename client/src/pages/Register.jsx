@@ -4,10 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../store/auth";
 
-
-const URL = `http://localhost:3000/api/auth/reg`
-
 function Register() {
+
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -16,8 +14,10 @@ function Register() {
   });
 
   const navigate = useNavigate();
-  const {storeTokenInLS} = useAuth();
+  const {storeTokenInLS, API} = useAuth();
   const [phoneError, setPhoneError] = useState("");
+
+  const RegURL = `${API}/auth/reg`
 
   const handleInput = (e) => {
     console.log(e);
@@ -45,7 +45,7 @@ function Register() {
     console.log(user);
 
     try {
-      const response = await fetch(URL, {
+      const response = await fetch(RegURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

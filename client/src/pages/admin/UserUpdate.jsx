@@ -10,14 +10,14 @@ function AdminUserUpdate() {
     phone: "",
   });
 
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
   const params = useParams();
 
   const getUser = async (req, res) => {
     try {
       // console.log("params",params);
       const response = await fetch(
-        `http://localhost:3000/api/admin/users/${params.id}`,
+        `${API}/admin/users/${params.id}`,
         {
           method: "GET",
           headers: {
@@ -46,10 +46,10 @@ function AdminUserUpdate() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(user);
+      // console.log(user);
 
       const response = await fetch(
-        `http://localhost:3000/api/admin/users/update/${params.id}`,
+        `${API}/admin/users/update/${params.id}`,
         {
           method: "PATCH",
           headers: {

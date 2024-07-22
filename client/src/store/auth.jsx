@@ -5,9 +5,16 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
-  const [services, setServices] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const authorizationToken = `Bearer ${token}`;
+
+  // API = "https://localhost:3000/api";
+  const API = import.meta.env.VITE_APP_URI_API;
+
+  //list of URL called
+  const AuthURL = `${API}/auth/user`;
+
+  // console.log(API);
 
   // Store token in local storage
   const storeTokenInLS = (serverToken) => {
@@ -15,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     setToken(serverToken);
   };
 
+  // converting into boolean
   let isLoggedIn = !!token;
 
   // Logout function
@@ -26,7 +34,8 @@ export const AuthProvider = ({ children }) => {
   //jwt Authentication - to get loggedin user data
   const userAuthentication = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/user`, {
+      setIsLoading(true);
+      const response = await fetch(AuthURL, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
@@ -39,55 +48,17 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
         // console.log("datahere",data.userData);
         setUser(data.userData);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
     } catch (error) {
       console.log("error authentication");
-    } 
-  };
-
-  //fetch services
-  const fetchServices = async () => {
-    const URL = "http://localhost:3000/api/data/service";
-
-    try {
-      const response = await fetch(URL, {
-        method: "GET",
-      });
-
-      console.log(response);
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.response);
-        setServices(data.response);
-      }
-    } catch (error) {
-      console.log(`services frontend error: ${error}`);
-    }
-  };
-
-  //fetch projects
-  const fetchProjects = async () => {
-    const projectURL = "http://localhost:3000/api/project";
-    try {
-      const response = await fetch(projectURL, {
-        method: "GET",
-      });
-      console.log(response);
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setProjects(data)
-      }
-    } catch (error) {
-      console.log(`Project frontend error: ${error}`);
     }
   };
 
   // Fetch user data when token changes
   useEffect(() => {
-    fetchServices();
-    fetchProjects();
     userAuthentication();
   }, [token]);
 
@@ -104,8 +75,8 @@ export const AuthProvider = ({ children }) => {
         authorizationToken,
         isLoggedIn,
         user,
-        services,
-        projects,
+        isLoading,
+        API,
       }}
     >
       {children}

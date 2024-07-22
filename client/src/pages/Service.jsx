@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../store/auth";
 
 export default function Service() {
-  const { services } = useAuth();
+  const { API } = useAuth();
+  const fetchServicesURL = `${API}/data/service`;
+
+  const [services, setServices] = useState([]);
+
+  useEffect( () => {
+    fetchServices();
+  },[])
+
+  //fetch services
+  const fetchServices = async () => {
+    try {
+      const response = await fetch(fetchServicesURL, {
+        method: "GET",
+      });
+
+      // console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+        // console.log(data.response);
+        setServices(data.response);
+      }
+    } catch (error) {
+      console.log(`services frontend error: ${error}`);
+    }
+  };
 
   return (
     <>

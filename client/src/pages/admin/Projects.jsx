@@ -3,12 +3,11 @@ import { useAuth } from "../../store/auth";
 import { toast } from "react-toastify";
 
 function AdminProjects() {
-  const { authorizationToken } = useAuth();
-  const URL = "http://localhost:3000/api/admin/projects";
+  const { authorizationToken, API } = useAuth();
   const [projects, setProjects] = useState([]);
 
   const getAllProjects = async (req, res) => {
-    const response = await fetch(URL, {
+    const response = await fetch(`${API}/admin/projects`, {
       method: "GET",
       headers: {
         Authorization: authorizationToken,
@@ -24,7 +23,7 @@ function AdminProjects() {
 
   const deleteProject = useCallback ( async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/admin/projects/delete/${id}`, {
+      await fetch(`${API}/admin/projects/delete/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: authorizationToken

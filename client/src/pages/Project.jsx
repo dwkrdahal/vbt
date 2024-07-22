@@ -1,12 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../store/auth";
 import "./Project.css";
 
 function Project() {
-  const { projects } = useAuth();
+
+  const [projects, setProjects] = useState([])
   const [selectedProjectType, setSelectedProjectType] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+
+  const { API } = useAuth();
+  const fetchProjectsURL = `${API}/project`;
+  // console.log(fetchProjectsURL);
+
+  useEffect( () => {
+    fetchProjects();
+  }, [])
+
+  //fetch projects
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch(fetchProjectsURL, {
+        method: "GET",
+      });
+      console.log(response);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setProjects(data);
+      }
+    } catch (error) {
+      console.log(`Project frontend error: ${error}`);
+    }
+  };
 
   // Filter projects based on selected project type and search term
   const filteredProjects = projects.filter((project) => {

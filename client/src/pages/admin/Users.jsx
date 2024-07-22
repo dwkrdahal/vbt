@@ -7,13 +7,12 @@ import { Link } from "react-router-dom";
 function AdminUsers() {
 
   const [users, setUsers] = useState ([]);
-  const {authorizationToken} = useAuth();
-  const getUserURL = "http://localhost:3000/api/admin/users";
+  const {authorizationToken, API} = useAuth();
 
   const getAllUsers = async (req, res) => {
     try {
       // console.log(authorizationToken); //checking token
-      const response = await fetch(getUserURL, {
+      const response = await fetch(`${API}/admin/users`, {
         method: "GET",
         headers: {
           "Authorization": authorizationToken,
@@ -31,7 +30,7 @@ function AdminUsers() {
 
   const deleteUser = useCallback( async (id) => { 
     try {
-      await fetch(`http://localhost:3000/api/admin/users/delete/${id}`, {
+      await fetch(`${API}/admin/users/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": authorizationToken,

@@ -34,7 +34,7 @@ adminRoute
   .get(authMiddleware, adminMiddleware, adminController.getContactById);
 
 adminRoute
-  .route("contacts/update/:id")
+  .route("/contacts/update/:id")
   .patch(authMiddleware, adminMiddleware, adminController.updateContactById);
 
 adminRoute

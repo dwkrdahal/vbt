@@ -6,12 +6,12 @@ import {Link} from "react-router-dom"
 
 function AdminServices() {
   const [services, setServices] = useState([]);
-  const { authorizationToken } = useAuth();
-  const URL = "http://localhost:3000/api/admin/services";
+  const { authorizationToken, API } = useAuth();
+  const URL = "";
 
   const getAllServices = async (req, res) => {
     try {
-      const response = await fetch(URL, {
+      const response = await fetch(`${API}/admin/services`, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
@@ -29,7 +29,7 @@ function AdminServices() {
   const deleteService = useCallback(async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/admin/services/delete/${id}`,
+        `${API}/admin/services/delete/${id}`,
         {
           method: "DELETE",
           headers: {
